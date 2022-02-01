@@ -6,24 +6,28 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 13:26:51 by julboyer          #+#    #+#             */
-/*   Updated: 2022/02/01 02:11:43 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/01 18:08:40 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 
-t_stack *first_move(t_data *data, int chunk_max)
+t_stack *first_move(t_data *data, int chunk_min, int chunk_max)
 {
 	t_stack *ret;
 
 	ret = data->stack[A];
-	while (ret->index >= chunk_max)
+//	printf("chunk %d, %d\n", chunk_min, chunk_max);
+	while (ret && (ret->index >= chunk_max || ret->index < chunk_min))
+	{
+//		printf("ret first %d, chunk%d\n", ret->index, chunk_max);
 		ret = ret->next;
+	}
 	return (ret);
 }
 
-t_stack *last_move(t_data *data, int chunk_max)
+t_stack *last_move(t_data *data, int chunk_min, int chunk_max)
 {
 	t_stack *ret;
 	t_stack *tmp;
@@ -31,37 +35,101 @@ t_stack *last_move(t_data *data, int chunk_max)
 	ret = data->stack[A];
 	while (ret)
 	{
-		if (ret->index < chunk_max)
+//		printf("ret %d\n", ret->index);
+		if (ret->index < chunk_max && ret->index >= chunk_min)
 			tmp = ret;
 		ret = ret->next;
 	}
 	return (tmp);
 }
 
-void	order_start(t_data *data, t_list **list_a, t_list **list_b)
+
+void	push_check(t_data *data, t_instructions **list)
+{
+	t_stack *tmp;
+//	t_stack *stck;
+	int		cmp;
+
+	if (data-> stack[B] && data->stack[A]->frame < data->small[B])
+		to_pos(data, -get_pivot_pos(data, data->big[B], B), list, B);
+	else if (data-> stack[B])
+	{
+		tmp = data->stack[B];
+		cmp = data->small[B];
+//		stck = tmp;
+		while (tmp)
+		{
+			if (tmp->frame > cmp && tmp->frame < data->stack[A]->frame)
+			{
+//				stck = tmp;
+				cmp = tmp->frame;
+			}
+			tmp = tmp->next;
+		}
+		to_pos(data, -get_pivot_pos(data, cmp, B), list, B);
+	}
+	push(data, A, B, list);
+}
+
+void	order_start(t_data *data, t_instructions **list)
 {
 	int chunk_div;
 	t_stack *first;
 	t_stack *last;
 	int i;
+	int	size;
 
+	if (is_sorted(data->stack[A]))
+		return ;
+	size = data->size[A];
 	if (data->size[A] < 250)
-		chunk_div = 5;
+		chunk_div = 4;
 	else
-		chunk_div =11;
+		chunk_div = 8;
 	i = 1;
-	while (data->stack[A])
+	while (!is_sorted(data->stack[A]))
 	{
-		first = first_move(data, i * data->size[A] / chunk_div);
-		last = last_move(data, i * data->size[A] / chunk_div);
-		if (get_pivot_pos(data, first->frame, A) < data->size[A] - get_pivot_pos(data, last->frame, A))
+		while (data->size[B] < (size * i / chunk_div) - ((i - 1) * size / chunk_div))
 		{
-			to_top(data, first, list_a, A);
-			push(data, A, B, list_a);
+			first = first_move(data, (i - 1) * size / chunk_div, i * size / chunk_div);
+			printf("first %d\n", first->index);
+			last = last_move(data, (i - 1) * size / chunk_div, i * size / chunk_div);
+			printf("last %d\n", last->index);
+			if (get_pivot_pos(data, first->frame, A) < data->size[A] - get_pivot_pos(data, last->frame, A))
+			{
+				to_pos(data, -get_pivot_pos(data, first->frame, A), list, A);
+				push_check(data, list);
+				if (first != last)
+				{
+					to_pos(data, -get_pivot_pos(data, last->frame, A), list, A);
+					push_check(data, list);
+				}
+			}
+			else
+			{
+				to_pos(data, -get_pivot_pos(data, last->frame, A), list, A);
+				push_check(data, list);
+				if (first != last)
+				{
+					to_pos(data, -get_pivot_pos(data, first->frame, A), list, A);
+					push_check(data, list);
+				}
+			}
 		}
+		print_stack(data, A);
+		print_stack(data, B);
+		while (data->stack[B])
+		{
+			to_pos(data, -get_pivot_pos(data, data->big[B], B), list, B);
+			push(data, B, A, list);
+		}
+		to_pos(data, -(data->size[A] / chunk_div), list, A);
 		i++;
 	}
-	
+/*	while (data->stack[A])
+	{
+		push_check(data, list);
+	}*/
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 13:52:54 by julboyer          #+#    #+#             */
-/*   Updated: 2021/12/28 13:08:09 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/01 15:06:19 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,28 @@
 void	ft_reverse_rotate(t_stack **stack, t_instructions **list, char index)
 {
 	t_stack *tmp;
+	t_instructions *inst1;
+	t_instructions *inst2;
 
 	tmp = *stack;
 	if (index == A)
 		ft_instadd_back(list, ft_instnew(ft_strdup("rra")));
 	else
-		ft_instadd_back(list, ft_instnew(ft_strdup("rrb")));
+	{
+		inst1 = *list;
+		while (inst1)
+		{
+			if (!ft_strcmp(inst1->inst, "pb"))
+				inst2 = inst1;
+			inst1 = inst1->next;
+		}
+		while (inst2 && ft_strcmp("rra", inst2->inst))
+			inst2 = inst2->next;
+		if (!inst2)
+			ft_instadd_back(list, ft_instnew(ft_strdup("rrb")));
+		else
+			ft_strcpy(inst2->inst, "rrr");
+	}
 	if (tmp->next)
 	{
 		while (tmp->next->next)
@@ -37,13 +53,29 @@ void	ft_rotate(t_stack **stack, t_instructions **list, char index)
 {
 	t_stack *tmp;
 	t_stack *tmp2;
+	t_instructions *inst1;
+	t_instructions *inst2;
 
 	tmp = *stack;
 	tmp2 = *stack;
 	if (index == A)
 		ft_instadd_back(list, ft_instnew(ft_strdup("ra")));
 	else
-		ft_instadd_back(list, ft_instnew(ft_strdup("rb")));
+	{
+		inst1 = *list;
+		while (inst1)
+		{
+			if (!ft_strcmp(inst1->inst, "pb"))
+				inst2 = inst1;
+			inst1 = inst1->next;
+		}
+		while (inst2 && ft_strcmp("ra", inst2->inst))
+			inst2 = inst2->next;
+		if (!inst2)
+			ft_instadd_back(list, ft_instnew(ft_strdup("rb")));
+		else
+			ft_strcpy(inst2->inst, "rr");
+	}
 	if (tmp->next)
 	{
 		while (tmp->next->next)
@@ -83,11 +115,27 @@ void	swap(t_stack **stack, t_instructions **list, char index)
 {
 	t_stack	*tmp;
 	t_stack	*tmp2;
+	t_instructions *inst1;
+	t_instructions *inst2;
 
 	if (index == A)
 		ft_instadd_back(list, ft_instnew(ft_strdup("sa")));
 	else
-		ft_instadd_back(list, ft_instnew(ft_strdup("sb")));
+	{
+		inst1 = *list;
+		while (inst1)
+		{
+			if (!ft_strcmp(inst1->inst, "pb"))
+				inst2 = inst1;
+			inst1 = inst1->next;
+		}
+		while (inst2 && ft_strcmp("sa", inst2->inst))
+			inst2 = inst2->next;
+		if (!inst2)
+			ft_instadd_back(list, ft_instnew(ft_strdup("sb")));
+		else
+			ft_strcpy(inst2->inst, "ss");
+	}
 	tmp = *stack;
 	tmp2 = tmp->next;
 	tmp->next = tmp2->next;

@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 11:09:43 by julboyer          #+#    #+#             */
-/*   Updated: 2022/01/31 16:08:32 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/01 14:53:41 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void init_stack(t_data *data, int ac, char **av)
 	data->big[0] = ft_pswbig(data->stack[0]);
 	data->small[0] = ft_pswsmall(data->stack[0]);
 	data->med[0] = data->size[0] / 2;
+	data->skip = 0;
 	set_index(data);
 }
 
@@ -90,22 +91,25 @@ void	print_inst(t_instructions **list)
 int main(int ac, char **av)
 {
 	t_data data;
-	t_instructions *list[2];
+	t_instructions *list;
 
 	if (ac > 1)
 	{
-		list[A] = NULL;
-		list[B] = NULL;
+		list = NULL;
 		init_stack(&data, ac, av);
-		print_stack(&data, A);
+//		print_stack(&data, A);
 		if (data.size[A] > 1)
 		{
-			quicksort_start(&data, &list[A], &list[B]);
-			if (list[A] || list [B])
+			order_start(&data, &list);
+/*			if (is_sorted(data.stack[A]) && !data.stack[B])
+				printf("OK ");
+			print_stack(&data, A);
+			printf("skip %d\n", data.skip);*/
+			if (list)
 			{			
 //				print_inst2(&list[B]);
-				ft_instmerge(list, data.skip);
-				print_inst(&list[A]);
+//				ft_instmerge(list, data.skip);
+				print_inst(&list);
 			}
 			psw_delstack(data.stack[A]);
 		}

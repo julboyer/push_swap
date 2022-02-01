@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 14:43:28 by julboyer          #+#    #+#             */
-/*   Updated: 2022/01/31 01:29:30 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/01 17:54:23 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,17 @@ int	get_pivot_pos(t_data *data, int pivot, int	index)
 	return (i);
 }
 
-int get_med_value(t_data *data, int index)
+int	get_index_pos(t_data *data, int index, int stack)
 {
-	int ret;
-	int stck;
 	int i;
 	t_stack *tmp;
 
-	ret = data->small[index];
 	i = 0;
-	while(i < data->med[index])
+	tmp = data->stack[stack];
+	while (tmp && tmp->index != index)
 	{
-		tmp = data->stack[index];
-		stck = data->big[index];
-		while (tmp)
-		{
-			if (tmp->frame < stck && tmp->frame > ret)
-				stck = tmp->frame;
-			tmp = tmp->next;
-		}
-		ret = stck;
+		tmp = tmp->next;
 		i++;
 	}
-	printf("ret %d\n", ret);
-	return (ret);
+	return (i);
 }
