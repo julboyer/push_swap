@@ -14,7 +14,8 @@ SRCS =	main.c \
 		psw_topos.c \
 		quicksort.c \
 		ft_strlen.c \
-		ft_strcpy.c
+		ft_strcpy.c \
+		ft_abs.c
 
 OBJ = ${SRCS_LIST:.c=.o}
 

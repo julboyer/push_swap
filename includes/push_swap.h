@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 11:32:41 by julboyer          #+#    #+#             */
-/*   Updated: 2021/12/27 17:11:15 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/01/31 14:33:11 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 typedef struct	s_stack
 {
 	long int	frame;
+	int			index;
 	struct s_stack		*next;
 }				t_stack;
 
@@ -73,11 +74,19 @@ void			swap_rrotate(t_data *data, t_instructions **list, int index);
 int				get_pivot_pos(t_data *data, int pivot, int	index);
 void			quicksort_start(t_data *data, t_instructions **list_a,
 					t_instructions **list_b);
-int				partition_a(t_data *data, t_instructions **list, t_stack *pivot,
-					int lenght);
-int				partition_b(t_data *data, t_instructions **list, t_stack *pivot,
-					int lenght);
+
+int				partition_a(t_data *data, t_instructions **list, int start,
+					int end);
+int				partition_b(t_data *data, t_instructions **list, int start,
+					int end);
 void			ft_instmerge(t_instructions *list[2], int skip);
 void			inst_delstack(t_instructions *stack);
+int				ft_abs(int val);
+int				to_pos(t_data *data, int move, t_instructions **list, int stack_index);
+void 			print_stack(t_data *data, int index);
+int 			get_med_value(t_data *data, int index);
+
+
+void	print_inst2(t_instructions **list);
 
 #endif

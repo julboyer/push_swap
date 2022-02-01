@@ -1,39 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_sorted.c                                        :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 13:46:48 by julboyer          #+#    #+#             */
-/*   Updated: 2022/01/26 12:21:03 by julboyer         ###   ########.fr       */
+/*   Created: 2022/01/22 19:14:11 by julboyer          #+#    #+#             */
+/*   Updated: 2022/01/22 19:15:29 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-int	is_sorted(t_stack *stack)
+int ft_abs(int val)
 {
-	if (!stack)
-		return (1);
-	while (stack->next)
-	{
-		if (stack->frame >= stack->next->frame)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
-}
-
-int	is_reverse_sorted(t_stack *stack)
-{
-	if (!stack)
-		return (1);
-	while (stack->next)
-	{
-		if (stack->frame <= stack->next->frame)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
+    if (val < 0)
+        return (-val);
+    return (val);
 }

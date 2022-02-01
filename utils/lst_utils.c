@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:19:48 by julboyer          #+#    #+#             */
-/*   Updated: 2021/12/27 17:52:32 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/01/31 15:14:57 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_stack	*ft_pswnew(int frame)
 	if (!new)
 		return (NULL);
 	new->frame = frame;
+	new->index = 0;
 	new->next = NULL;
 	return (new);
 }

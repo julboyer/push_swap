@@ -50,6 +50,9 @@ t_instructions	*ft_instnew(char *inst)
 void	inst_delstack(t_instructions *stack)
 {
 	t_instructions *tmp;
+
+	if (!stack)
+		return ;
 	while (stack->next)
 	{
 		tmp = stack->next;

@@ -6,86 +6,68 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 13:26:51 by julboyer          #+#    #+#             */
-/*   Updated: 2021/12/28 14:32:16 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/01 02:11:43 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 
-void	quicksort_b(t_data *data, t_instructions **list, int start, int end)
+t_stack *first_move(t_data *data, int chunk_max)
 {
-	int lenght;
-	int pindex;
-	t_stack *pivot;
+	t_stack *ret;
 
-	if (end > start)
-	{
-		lenght = end - start;
-		if (data->stack[B]->frame == data->small[B])
-				ft_rotate(&data->stack[B], list, B);
-		pivot = data->stack[B];
-		printf("%d\n", start);
-		pindex = partition_b(data, list, pivot, lenght);
-		printf("pindex %d\n", pindex);
-		if (pindex - 1 - start > 1 && !is_reverse_sorted(data->stack[B]))
-			quicksort_b(data, list, start, pindex - 1);
-		if (end - (pindex + 1) > 1 && !is_reverse_sorted(data->stack[B]))
-			quicksort_b(data, list, pindex + 1, end);
-	}
+	ret = data->stack[A];
+	while (ret->index >= chunk_max)
+		ret = ret->next;
+	return (ret);
 }
 
-void	quicksort_a(t_data *data, t_instructions **list, int start, int end)
+t_stack *last_move(t_data *data, int chunk_max)
 {
-	int lenght;
-	int pindex;
-	t_stack *pivot;
-
-	if (end > start)
-	{
-		lenght = end - start;
-		if (data->stack[A]->frame == data->big[A])
-				ft_rotate(&data->stack[A], list, A);
-		pivot = data->stack[A];
-		pindex = partition_a(data, list, pivot, lenght);
-		if (pindex - 1 - start > 1 && !is_sorted(data->stack[A]))
-			quicksort_a(data, list, start, pindex - 1);
-		if (end - (pindex + 1) > 1 && !is_sorted(data->stack[A]))
-			quicksort_a(data, list, pindex + 1, end);
-	}
-}
-
-void	quicksort_start(t_data *data, t_instructions **list_a,
-			t_instructions **list_b)
-{
-	int pivot;
+	t_stack *ret;
 	t_stack *tmp;
-	t_stack *stock;
 
-	if (is_sorted(data->stack[0]))
-		return ;
-	tmp = data->stack[0];
-	pivot = tmp->frame;
-	data->skip = 0;
-	while (tmp)
+	ret = data->stack[A];
+	while (ret)
 	{
-		stock = tmp->next;
-		if(tmp->frame < pivot)
-		{
-			data->skip += to_top(data, tmp, list_a, A) + 1;
-			if (!is_sorted(data->stack[A]))
-				push(data, A, B, list_a);
-		}
-		tmp = stock;
+		if (ret->index < chunk_max)
+			tmp = ret;
+		ret = ret->next;
 	}
-	if (!is_sorted(data->stack[A]))
-		quicksort_a(data, list_a, 0, data->size[A]);
-	if (!is_reverse_sorted(data->stack[B]))
-		quicksort_b(data, list_b, 0, data->size[B]);
-	while (data->stack[B])
-		push(data, B, A, list_b);
+	return (tmp);
+}
+
+void	order_start(t_data *data, t_list **list_a, t_list **list_b)
+{
+	int chunk_div;
+	t_stack *first;
+	t_stack *last;
+	int i;
+
+	if (data->size[A] < 250)
+		chunk_div = 5;
+	else
+		chunk_div =11;
+	i = 1;
+	while (data->stack[A])
+	{
+		first = first_move(data, i * data->size[A] / chunk_div);
+		last = last_move(data, i * data->size[A] / chunk_div);
+		if (get_pivot_pos(data, first->frame, A) < data->size[A] - get_pivot_pos(data, last->frame, A))
+		{
+			to_top(data, first, list_a, A);
+			push(data, A, B, list_a);
+		}
+		i++;
+	}
+	
 }
 
 /*
-2 1 3 4 
+98 99 97 96 95 94 93 92 91 90 89 88 87 86 85 84 83 82 81 80 79 78 77 76 75 74 73 72 71 70 69 68 67 65 64 63 62 61 60 59 58 57 56 55 54 53 52 32 51 50 49 48 47 14 46 45 43 42 41 40 39 38 37 36 35 34 33 31 30 29 28 27 26 25 24 23 22 21 7 20 19 18 17 16 15 13 12 11 10 9 8 6 5 4 3 2 100 
+1 
+
+1 2 3 
+
 */

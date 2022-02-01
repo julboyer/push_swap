@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 13:22:12 by julboyer          #+#    #+#             */
-/*   Updated: 2021/12/28 13:12:11 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/01/30 13:19:08 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,25 @@ int	to_top(t_data *data, t_stack *current, t_instructions **list,
 {
 	int i;
 	int j;
-	t_stack *tmp;
 
-	i = 0;
-	tmp = data->stack[stack_index];
-	while (tmp != current && ++i)
-		tmp = tmp->next;
+	i = get_pivot_pos(data, current->frame, stack_index);
+//	printf("i %d\n", i);
 	j = 0;
-		printf("to top %d, %d\n", i < data->med[stack_index], data->med[stack_index]);
-	if ((i < data->med[stack_index]) && i != 1)
+	if (i == 1)
+		swap(&data->stack[stack_index], list, stack_index);
+	else if ((i <= data->med[stack_index]))
 	{
 		while (j++ < i)
 			ft_rotate(&data->stack[stack_index], list, stack_index);
 	}
-	else if (i == 1)
-		swap(&data->stack[stack_index], list, stack_index);
 	else if (i)
 	{
 		i = data->size[stack_index] - i;
-		printf("TEST to top %d\n", i);
 		while (j++ < i)
 			ft_reverse_rotate(&data->stack[stack_index], list, stack_index);
-		return (i + 1);
+//		printf("to top reverse j%d : ", j);
+//		print_stack(data, stack_index);
+		return (i);
 	}
 	return (i);
 }
@@ -48,40 +45,67 @@ int	to_second(t_data *data, t_stack *current, t_instructions **list,
 {
 	int i;
 	int j;
-	t_stack *tmp;
 
-	i = 0;
-	tmp = data->stack[stack_index];
-	while (tmp != current && ++i)
-		tmp = tmp->next;
-	j = 1;
-	if ((i <= data->med[stack_index]) && (i != 0))
-		while (j++ < i)
-			ft_rotate(&data->stack[stack_index], list, stack_index);
-	else if (i == 0)
+	i = get_pivot_pos(data, current->frame, stack_index);
+	j = 0;
+	if (i == 0)
 	{
 		swap(&data->stack[stack_index], list, stack_index);
 		return (1);
 	}
-	else if (i != 1)
+	if ((i - 1 <= data->med[stack_index]))
+	{
+		while (j++ < i - 1)
+			ft_rotate(&data->stack[stack_index], list, stack_index);
+	}
+	else
 	{
 		i = data->size[stack_index] - i + 1;
 		while (j++ < i)
 			ft_reverse_rotate(&data->stack[stack_index], list, stack_index);
-		return (i);
+		return (i + 1);
 	}
-	return (i - 1);
+	return (i);
 }
 
 void	swap_rotate(t_data *data, t_instructions **list, int index)
 {
 	swap(&data->stack[index], list, index);
-	ft_rotate(&data->stack[index], list, index);
+		ft_rotate(&data->stack[index], list, index);
 }
 
 void	swap_rrotate(t_data *data, t_instructions **list, int index)
 {
 	swap(&data->stack[index], list, index);
-	if ((index == A && is_sorted(data->stack[index])) || (index == B && is_reverse_sorted(data->stack[index])))
-		ft_reverse_rotate(&data->stack[index], list, index);
+	ft_reverse_rotate(&data->stack[index], list, index);
+}
+
+int	to_pos(t_data *data, int move, t_instructions **list, int stack_index)
+{
+	int sign;
+	int i;
+
+	if (ft_abs(move) > data->med[stack_index])
+	{
+		if (move < 0)
+			move = move + data->size[stack_index];
+		else
+			move = move - data->size[stack_index];
+	}
+	if (move < 0)
+		sign = -1;
+	else
+		sign = 0;
+	i = 0;
+	if (sign)
+	{
+		while (i++ < ft_abs(move))
+			ft_rotate(&data->stack[stack_index], list, stack_index);
+	}
+	else if (move > 0)
+	{
+		while (i++ < move)
+			ft_reverse_rotate(&data->stack[stack_index], list, stack_index);
+	}
+	return (move);
 }
