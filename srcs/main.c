@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 11:09:43 by julboyer          #+#    #+#             */
-/*   Updated: 2022/02/01 14:53:41 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/01 23:02:48 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ int main(int ac, char **av)
 			order_start(&data, &list);
 /*			if (is_sorted(data.stack[A]) && !data.stack[B])
 				printf("OK ");
-			print_stack(&data, A);
-			printf("skip %d\n", data.skip);*/
+			print_stack(&data, A);*/
 			if (list)
 			{			
 //				print_inst2(&list[B]);
