@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:19:48 by julboyer          #+#    #+#             */
-/*   Updated: 2021/12/27 17:15:12 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/02 17:46:46 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_instructions	*ft_instnew(char *inst)
 
 void	inst_delstack(t_instructions *stack)
 {
-	t_instructions *tmp;
+	t_instructions	*tmp;
 
 	if (!stack)
 		return ;

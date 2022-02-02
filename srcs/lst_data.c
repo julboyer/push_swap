@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 14:43:28 by julboyer          #+#    #+#             */
-/*   Updated: 2022/02/01 17:54:23 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/02 17:03:00 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_pswsize(t_stack *lst)
 
 int	ft_pswbig(t_stack *stack)
 {
-	int i;
+	int	i;
 
 	if (stack)
 	{
@@ -45,7 +45,7 @@ int	ft_pswbig(t_stack *stack)
 
 int	ft_pswsmall(t_stack *stack)
 {
-	int i;
+	int	i;
 
 	if (stack)
 	{
@@ -61,10 +61,10 @@ int	ft_pswsmall(t_stack *stack)
 	return (0);
 }
 
-int	get_pivot_pos(t_data *data, int pivot, int	index)
+int	get_pivot_pos(t_data *data, int pivot, int index)
 {
-	int i;
-	t_stack *tmp;
+	int			i;
+	t_stack		*tmp;
 
 	i = 0;
 	tmp = data->stack[index];
@@ -78,8 +78,8 @@ int	get_pivot_pos(t_data *data, int pivot, int	index)
 
 int	get_index_pos(t_data *data, int index, int stack)
 {
-	int i;
-	t_stack *tmp;
+	int			i;
+	t_stack		*tmp;
 
 	i = 0;
 	tmp = data->stack[stack];

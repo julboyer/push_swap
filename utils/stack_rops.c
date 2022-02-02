@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 13:52:54 by julboyer          #+#    #+#             */
-/*   Updated: 2022/02/02 02:22:57 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/02 17:38:40 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_reverse_rotate(t_stack **stack, t_instructions **list, char index)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	tmp = *stack;
 	if (index == A)
@@ -35,9 +35,8 @@ void	ft_reverse_rotate(t_stack **stack, t_instructions **list, char index)
 
 void	ft_rotate(t_stack **stack, t_instructions **list, char index)
 {
-	t_stack *tmp;
-	t_stack *tmp2;
-
+	t_stack	*tmp;
+	t_stack	*tmp2;
 
 	tmp = *stack;
 	tmp2 = *stack;
@@ -58,8 +57,8 @@ void	ft_rotate(t_stack **stack, t_instructions **list, char index)
 
 void	push(t_data *data, int indexf, int indext, t_instructions **list)
 {
-	t_stack *tmpf;
-	t_stack *tmpt;
+	t_stack	*tmpf;
+	t_stack	*tmpt;
 
 	if (indext == A)
 		ft_instadd_back(list, ft_instnew(ft_strdup("pa")));
@@ -83,27 +82,11 @@ void	push(t_data *data, int indexf, int indext, t_instructions **list)
 void	swap(t_stack **stack, t_instructions **list, char index)
 {
 	t_stack	*tmp2;
-	t_instructions *inst1;
-	t_instructions *inst2;
 
 	if (index == A)
 		ft_instadd_back(list, ft_instnew(ft_strdup("sa")));
 	else
-	{
-		inst1 = *list;
-		while (inst1)
-		{
-			if (!ft_strcmp(inst1->inst, "pb"))
-				inst2 = inst1;
-			inst1 = inst1->next;
-		}
-		while (inst2 && ft_strcmp("sa", inst2->inst))
-			inst2 = inst2->next;
-		if (!inst2)
-			ft_instadd_back(list, ft_instnew(ft_strdup("sb")));
-		else
-			ft_strcpy(inst2->inst, "ss");
-	}
+		ft_instadd_back(list, ft_instnew(ft_strdup("sb")));
 	tmp2 = (*stack)->next;
 	(*stack)->next = tmp2->next;
 	tmp2->next = *stack;

@@ -8,9 +8,7 @@ SRCS =	main.c \
 		ft_strcmp.c \
 		ft_strdup.c \
 		instructions_utils.c \
-		instsort.c \
 		lst_data.c \
-		partition.c \
 		psw_topos.c \
 		quicksort.c \
 		ft_strlen.c \
@@ -25,7 +23,6 @@ UTILS =	checkargs.c \
 		ft_atol.c \
 		ft_split.c \
 		lst_utils.c \
-		parsing.c \
 		stack_rops.c \
 		is_sorted.c
 

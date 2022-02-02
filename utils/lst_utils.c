@@ -6,7 +6,7 @@
 /*   By: julboyer <julboyer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:19:48 by julboyer          #+#    #+#             */
-/*   Updated: 2022/01/31 15:14:57 by julboyer         ###   ########.fr       */
+/*   Updated: 2022/02/02 17:03:37 by julboyer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_pswadd_back(t_stack **alst, t_stack *new)
 		res->next = new;
 }
 
-t_stack	*ft_pswnew(int frame)
+t_stack	*ft_pswnew(long int frame)
 {
 	t_stack	*new;
 
@@ -58,7 +58,8 @@ t_stack	*ft_pswnew(int frame)
 
 void	psw_delstack(t_stack *stack)
 {
-	t_stack *tmp;
+	t_stack	*tmp;
+
 	while (stack->next)
 	{
 		tmp = stack->next;
